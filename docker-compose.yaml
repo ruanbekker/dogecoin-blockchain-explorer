@@ -1,0 +1,17 @@
+version: "3.8"
+
+services:
+  dogecoin-explorer:
+    container_name: dogecoin-explorer
+    build: .
+    environment:
+      - RPC_ENDPOINT=https://doge-testnet.gateway.tatum.io/
+      - RPC_API_KEY= # tatum.io offers free endpoints
+    ports:
+      - 5223:5000
+    networks:
+      - rpcnet
+
+networks:
+  rpcnet:
+    name: rpcnet
