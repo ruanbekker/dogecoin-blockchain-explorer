@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Block Details</title>
+</head>
+<body>
+    <h1>Block Details</h1>
+    <p>Hash: {{ block.hash }}</p>
+    <p>Height: {{ block.height }}</p>
+    <p>Transactions:</p>
+    <ul>
+        {% for tx in block.tx %}
+            <li><a href="/transaction/{{ tx }}">{{ tx }}</a></li>
+        {% endfor %}
+    </ul>
+    <a href="/">Back</a>
+</body>
+</html>
+
