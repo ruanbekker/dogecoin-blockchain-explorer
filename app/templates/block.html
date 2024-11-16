@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card shadow">
+    <div class="card-header bg-secondary text-white">
+        <h2>Block Details</h2>
+    </div>
+    <div class="card-body">
+        <p><strong>Hash:</strong> {{ block.hash }}</p>
+        <p><strong>Height:</strong> {{ block.height }}</p>
+        <h4>Transactions</h4>
+        <ul class="list-group">
+            {% for tx in block.tx %}
+            <li class="list-group-item">
+                <a href="/transaction/{{ tx }}">{{ tx }}</a>
+            </li>
+            {% endfor %}
+        </ul>
+        <a href="/" class="btn btn-secondary mt-3">Back</a>
+    </div>
+</div>
+{% endblock %}
+

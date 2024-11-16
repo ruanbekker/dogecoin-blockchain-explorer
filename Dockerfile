@@ -1,9 +1,15 @@
 FROM python:3.10-alpine
 
-COPY requirements.txt /src/requirements.txt
-RUN pip install -r /src/requirements.txt
+WORKDIR /app
 
-WORKDIR /src
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r /app/requirements.txt
+
 COPY . .
 
-CMD ["python", "/src/app.py"]
+ENV FLASK_APP=run.py
+ENV FLASK_RUN_HOST=0.0.0.0
+ENV FLASK_ENV=production
+
+CMD ["flask", "run"]
+
