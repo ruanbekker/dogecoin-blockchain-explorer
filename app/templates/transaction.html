@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card shadow-lg">
+    <div class="card-header bg-info text-white text-center">
+        <h2>Transaction Details</h2>
+    </div>
+    <div class="card-body">
+        <p><strong>TXID:</strong> {{ tx.txid }}</p>
+        
+        <!-- Transaction Inputs -->
+        <h4>Inputs</h4>
+        <ul class="list-group mb-3">
+            {% for vin in tx.vin %}
+                <li class="list-group-item">
+                    <strong>TXID:</strong> {{ vin.txid }} <br>
+                    <strong>VOUT:</strong> {{ vin.vout }}
+                </li>
+            {% else %}
+                <li class="list-group-item">No inputs (Coinbase transaction)</li>
+            {% endfor %}
+        </ul>
+
+        <!-- Transaction Outputs -->
+        <h4>Outputs</h4>
+        <ul class="list-group">
+            {% for vout in tx.vout %}
+                <li class="list-group-item">
+                    <strong>{{ vout.value }} DOGE</strong> to 
+                    {% if vout.scriptPubKey.addresses %}
+                        {{ vout.scriptPubKey.addresses[0] }}
+                    {% else %}
+                        Unknown address
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+
+        <!-- Back Button -->
+        <a href="/" class="btn btn-info mt-3">Back</a>
+    </div>
+</div>
+{% endblock %}
+

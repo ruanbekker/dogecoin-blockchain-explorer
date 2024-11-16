@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card shadow-lg">
+    <div class="card-header bg-primary text-white">
+        <h2>Latest Blocks</h2>
+    </div>
+    <div class="card-body">
+        <table class="table table-hover">
+            <thead class="table-light">
+                <tr>
+                    <th>Hash</th>
+                    <th>Block Height</th>
+                    <th>Block Size (bytes)</th>
+                    <th>Transactions</th>
+                    <th>Block Reward</th>
+                    <th>Mined Date & Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for block in last_blocks %}
+                <tr>
+                    <td>
+                        <a href="{{ url_for('routes.block_details', block_hash=block.hash) }}">
+                            {{ block.hash[:8] }}...{{ block.hash[-8:] }}
+                        </a>
+                        <button class="btn btn-sm btn-link text-secondary" onclick="copyToClipboard('{{ block.hash }}')">
+                            <i class="bi bi-clipboard"></i>
+                        </button>
+                    </td>
+                    <td>{{ block.height }}</td>
+                    <td>{{ block.size }}</td>
+                    <td>{{ block.transactions }}</td>
+                    <td><strong>{{ block.reward }}</strong></td>
+                    <td>
+                        {{ block.time | datetimeformat }}
+                        <br>
+                        <small>{{ block.time | timeago }}</small>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    function copyToClipboard(text) {
+        if (navigator.clipboard && window.isSecureContext) {
+            // Modern method using navigator.clipboard
+            navigator.clipboard.writeText(text).then(function() {
+                alert("Copied to clipboard: " + text);
+            }).catch(function(error) {
+                console.error("Error copying text: ", error);
+                alert("Failed to copy text to clipboard.");
+            });
+        } else {
+            // Fallback method for older browsers
+            let textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.position = "fixed"; // Prevent scrolling to bottom of page in some browsers
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            
+            try {
+                document.execCommand("copy");
+                alert("Copied to clipboard: " + text);
+            } catch (error) {
+                console.error("Fallback: Error copying text: ", error);
+                alert("Failed to copy text to clipboard.");
+            }
+
+            document.body.removeChild(textArea);
+        }
+    }
+</script>
+
+{% endblock %}
+
